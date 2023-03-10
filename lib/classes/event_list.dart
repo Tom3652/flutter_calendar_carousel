@@ -1,33 +1,33 @@
 class EventList<T> {
-  Map<DateTime, List<T>> events;
+  Map<int, List<T>> events;
 
   EventList({
     required this.events,
   });
 
   void add(DateTime date, T event) {
-    final eventsOfDate = events[date];
+    final eventsOfDate = events[date.millisecondsSinceEpoch];
     if (eventsOfDate == null)
-      events[date] = [event];
+      events[date.millisecondsSinceEpoch] = [event];
     else
       eventsOfDate.add(event);
   }
 
   void addAll(DateTime date, List<T> events) {
-    final eventsOfDate = this.events[date];
+    final eventsOfDate = this.events[date.millisecondsSinceEpoch];
     if (eventsOfDate == null)
-      this.events[date] = events;
+      this.events[date.millisecondsSinceEpoch] = events;
     else
       eventsOfDate.addAll(events);
   }
 
   bool remove(DateTime date, T event) {
-    final eventsOfDate = events[date];
+    final eventsOfDate = events[date.millisecondsSinceEpoch];
     return eventsOfDate != null ? eventsOfDate.remove(event) : false;
   }
 
   List<T> removeAll(DateTime date) {
-    return events.remove(date) ?? [];
+    return events.remove(date.millisecondsSinceEpoch) ?? [];
   }
 
   void clear() {
@@ -35,6 +35,6 @@ class EventList<T> {
   }
 
   List<T> getEvents(DateTime date) {
-    return events[date] ?? [];
+    return events[date.millisecondsSinceEpoch] ?? [];
   }
 }
