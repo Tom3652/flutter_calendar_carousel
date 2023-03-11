@@ -328,8 +328,8 @@ class _CalendarState<T extends EventInterface>
 
   @override
   Widget build(BuildContext context) {
-    final headerText = widget.headerText;
-    return Container(
+    //final headerText = widget.headerText;
+    return SizedBox(
       width: widget.width,
       height: widget.height,
       child: Column(
@@ -337,11 +337,12 @@ class _CalendarState<T extends EventInterface>
           CalendarHeader(
             showHeader: widget.showHeader,
             headerMargin: widget.headerMargin,
-            headerTitle: headerText != null
+            headerTitle: DateAdapter.getDateFromDateTime(_dates[_pageNum]),
+            /*headerText != null
                 ? headerText
                 : widget.weekFormat
                     ? '${_localeDate.format(this._weeks[this._pageNum].first)}'
-                    : '${_localeDate.format(this._dates[this._pageNum])}',
+                    : '${_localeDate.format(this._dates[this._pageNum])}',*/
             headerTextStyle: widget.headerTextStyle,
             showHeaderButtons: widget.showHeaderButton,
             headerIconColor: widget.iconColor,
@@ -397,14 +398,13 @@ class _CalendarState<T extends EventInterface>
           ),
           Expanded(
               child: PageView.builder(
-            itemCount:
-                widget.weekFormat ? this._weeks.length : this._dates.length,
+            itemCount: _dates.length,// widget.weekFormat ? this._weeks.length : this._dates.length,
             physics: widget.isScrollable
                 ? widget.pageScrollPhysics
                 : NeverScrollableScrollPhysics(),
             scrollDirection: widget.scrollDirection,
             onPageChanged: (index) {
-              this._setDate(index);
+              _setDate(index);
             },
             controller: _controller,
             itemBuilder: (context, index) {
@@ -429,7 +429,7 @@ class _CalendarState<T extends EventInterface>
     bool isThisMonthDay,
     DateTime now,
   ) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       height: double.infinity,
       child: Row(
