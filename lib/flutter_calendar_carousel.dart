@@ -352,26 +352,26 @@ class _CalendarState<T extends EventInterface>
 
               if (this._pageNum > 0) {
                 _controller.animateToPage(_pageNum-1,
-                    duration: Duration(milliseconds: 250), curve: Threshold(0.0));
+                    duration: Duration(milliseconds: 250), curve: Curves.decelerate);
                 //_setDate(this._pageNum - 1);
               }
             },
             onRightButtonPressed: () {
               widget.onRightArrowPressed?.call();
 
-              if (widget.weekFormat) {
+              /*if (widget.weekFormat) {
                 if (this._weeks.length - 1 > this._pageNum) {
                   _controller.animateToPage(_pageNum+1,
                       duration: Duration(milliseconds: 250), curve: Threshold(0.0));
                   //_setDate(this._pageNum + 1);
                 }
-              } else {
+              } else {*/
                 if (this._dates.length - 1 > this._pageNum) {
                   _controller.animateToPage(_pageNum+1,
-                      duration: Duration(milliseconds: 250), curve: Threshold(0.0));
+                      duration: Duration(milliseconds: 250), curve: Curves.decelerate);
                   //_setDate(this._pageNum + 1);
                 }
-              }
+              //}
             },
             onHeaderTitlePressed: widget.headerTitleTouchable
                 ? () {
