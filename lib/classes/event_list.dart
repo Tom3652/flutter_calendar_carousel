@@ -1,33 +1,33 @@
 class EventList<T> {
-  Map<int, List<T>> events;
+  Map<String, List<T>> events;
 
   EventList({
     required this.events,
   });
 
   void add(DateTime date, T event) {
-    final eventsOfDate = events[date.millisecondsSinceEpoch];
+    final eventsOfDate = events[DateAdapter.buildDateAsString(date)];
     if (eventsOfDate == null)
-      events[date.millisecondsSinceEpoch] = [event];
+      events[DateAdapter.buildDateAsString(date)] = [event];
     else
       eventsOfDate.add(event);
   }
 
   void addAll(DateTime date, List<T> events) {
-    final eventsOfDate = this.events[date.millisecondsSinceEpoch];
+    final eventsOfDate = this.events[DateAdapter.buildDateAsString(date)];
     if (eventsOfDate == null)
-      this.events[date.millisecondsSinceEpoch] = events;
+      this.events[DateAdapter.buildDateAsString(date)] = events;
     else
       eventsOfDate.addAll(events);
   }
 
   bool remove(DateTime date, T event) {
-    final eventsOfDate = events[date.millisecondsSinceEpoch];
+    final eventsOfDate = events[DateAdapter.buildDateAsString(date)];
     return eventsOfDate != null ? eventsOfDate.remove(event) : false;
   }
 
   List<T> removeAll(DateTime date) {
-    return events.remove(date.millisecondsSinceEpoch) ?? [];
+    return events.remove(DateAdapter.buildDateAsString(date)) ?? [];
   }
 
   void clear() {
@@ -35,6 +35,22 @@ class EventList<T> {
   }
 
   List<T> getEvents(DateTime date) {
-    return events[date.millisecondsSinceEpoch] ?? [];
+    return events[DateAdapter.buildDateAsString(date)] ?? [];
   }
+}
+
+class DateAdapter {
+
+  static DateTime getDateFromString(String date) {
+    List<String> tempList = date.split(".");
+    int year = int.parse(tempList.first);
+    int month = int.parse(tempList[1]);
+    int day = int.parse(tempList.last);
+    return DateTime(year, month, day);
+  }
+
+  static String buildDateAsString(DateTime dateTime) {
+    return "${dateTime.year}.${dateTime.month}.${dateTime.day}";
+  }
+
 }
