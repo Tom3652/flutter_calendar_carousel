@@ -938,15 +938,15 @@ class _CalendarState<T extends EventInterface>
         _setDatesAndWeeks();
       });
     } else {
-      if (widget.weekFormat) {
+      /*if (widget.weekFormat) {
         setState(() {
           this._pageNum = page;
           this._targetDate = this._weeks[page].first;
         });
 
-        /*_controller.animateToPage(page,
-            duration: Duration(milliseconds: 250), curve: Threshold(0.0));*/
-      } else {
+        *//*_controller.animateToPage(page,
+            duration: Duration(milliseconds: 250), curve: Threshold(0.0));*//*
+      } else {*/
         setState(() {
           this._pageNum = page;
           this._targetDate = this._dates[page];
@@ -955,7 +955,7 @@ class _CalendarState<T extends EventInterface>
         });
         /*_controller.animateToPage(page,
             duration: Duration(milliseconds: 250), curve: Threshold(0.0));*/
-      }
+      //}
 
       //call callback
       final onCalendarChanged = widget.onCalendarChanged;
