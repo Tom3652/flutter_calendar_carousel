@@ -350,17 +350,27 @@ class _CalendarState<T extends EventInterface>
             onLeftButtonPressed: () {
               widget.onLeftArrowPressed?.call();
 
-              if (this._pageNum > 0) _setDate(this._pageNum - 1);
+              if (this._pageNum > 0) {
+                _controller.animateToPage(_pageNum-1,
+                    duration: Duration(milliseconds: 250), curve: Threshold(0.0));
+                //_setDate(this._pageNum - 1);
+              }
             },
             onRightButtonPressed: () {
               widget.onRightArrowPressed?.call();
 
               if (widget.weekFormat) {
-                if (this._weeks.length - 1 > this._pageNum)
-                  _setDate(this._pageNum + 1);
+                if (this._weeks.length - 1 > this._pageNum) {
+                  _controller.animateToPage(_pageNum+1,
+                      duration: Duration(milliseconds: 250), curve: Threshold(0.0));
+                  //_setDate(this._pageNum + 1);
+                }
               } else {
-                if (this._dates.length - 1 > this._pageNum)
-                  _setDate(this._pageNum + 1);
+                if (this._dates.length - 1 > this._pageNum) {
+                  _controller.animateToPage(_pageNum+1,
+                      duration: Duration(milliseconds: 250), curve: Threshold(0.0));
+                  //_setDate(this._pageNum + 1);
+                }
               }
             },
             onHeaderTitlePressed: widget.headerTitleTouchable
@@ -398,7 +408,7 @@ class _CalendarState<T extends EventInterface>
             },
             controller: _controller,
             itemBuilder: (context, index) {
-              return widget.weekFormat ? weekBuilder(index) : builder(index);
+              return builder(index);
             },
             pageSnapping: widget.pageSnapping,
           )),
@@ -567,7 +577,7 @@ class _CalendarState<T extends EventInterface>
     );
   }
 
-  AnimatedBuilder builder(int slideIndex) {
+  Widget builder(int slideIndex) {
     _startWeekday = _dates[slideIndex].weekday - firstDayOfWeek;
     if (_startWeekday == 7) {
       _startWeekday = 0;
@@ -576,7 +586,7 @@ class _CalendarState<T extends EventInterface>
         DateTime(_dates[slideIndex].year, _dates[slideIndex].month + 1, 1)
                 .weekday -
             firstDayOfWeek;
-    double screenWidth = MediaQuery.of(context).size.width;
+    //double screenWidth = MediaQuery.of(context).size.width;
     int totalItemCount = widget.staticSixWeekFormat
         ? 42
         : DateTime(
@@ -589,7 +599,9 @@ class _CalendarState<T extends EventInterface>
     int year = _dates[slideIndex].year;
     int month = _dates[slideIndex].month;
 
-    return AnimatedBuilder(
+
+
+    /*return AnimatedBuilder(
       animation: _controller,
       builder: (context, child) {
         if (!widget.shouldShowTransform) {
@@ -609,7 +621,9 @@ class _CalendarState<T extends EventInterface>
           ),
         );
       },
-      child: Stack(
+      child:*/
+
+    return Stack(
         children: <Widget>[
           Positioned(
             child: Container(
@@ -692,8 +706,7 @@ class _CalendarState<T extends EventInterface>
             ),
           ),
         ],
-      ),
-    );
+      );
   }
 
   AnimatedBuilder weekBuilder(int slideIndex) {
@@ -931,8 +944,8 @@ class _CalendarState<T extends EventInterface>
           this._targetDate = this._weeks[page].first;
         });
 
-        _controller.animateToPage(page,
-            duration: Duration(milliseconds: 1), curve: Threshold(0.0));
+        /*_controller.animateToPage(page,
+            duration: Duration(milliseconds: 250), curve: Threshold(0.0));*/
       } else {
         setState(() {
           this._pageNum = page;
@@ -940,8 +953,8 @@ class _CalendarState<T extends EventInterface>
           _startWeekday = _dates[page].weekday - firstDayOfWeek;
           _endWeekday = _lastDayOfWeek(_dates[page]).weekday - firstDayOfWeek;
         });
-        _controller.animateToPage(page,
-            duration: Duration(milliseconds: 1), curve: Threshold(0.0));
+        /*_controller.animateToPage(page,
+            duration: Duration(milliseconds: 250), curve: Threshold(0.0));*/
       }
 
       //call callback
